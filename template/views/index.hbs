@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<style>
+    body {
+        margin: 0px;
+    }
+
+
+    /* //this is for menu */
+    .menu {
+        justify-content: space-evenly;
+        display: flex;
+        height: 10vh;
+        width: 130vh;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        /* border: 2px solid gold; */
+        margin-top: 12px;
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+    }
+
+    .tool img {
+        height: 40px;
+
+    }
+
+    .fas {
+        font-size: 2rem;
+        margin-right: 30px;
+        margin-left: 30px;
+    }
+
+    /* for colour pixel */
+
+    .co {
+        width: 35px;
+        height: 35px;
+        border-radius: 21px;
+        /* margin: 12px; */
+    }
+
+    .red {
+        background-color: red;
+
+    }
+
+    .black {
+        background-color: black;
+
+    }
+
+    .green {
+        background-color: green;
+
+    }
+
+    .yellow {
+        background-color: yellow;
+
+    }
+
+    .blue {
+        background-color: blue;
+
+    }
+
+    /* #line img:hover{
+    border: 2px solid blue;
+} */
+    .tool img:hover {
+        height: 43px;
+    }
+
+    .active {
+        background-color: coral;
+    }
+
+    .disable {
+        background-color: wheat;
+    }
+
+
+    /* <!-- https://github.com/Jasbir96/Batches/blob/main/FJP-1/index.html --> */
+</style>
+<style>
+    .button{
+          margin-top: 19px;
+         margin-right: 34px;
+    }
+    .nav{display: flex;}
+    .inner{
+           background-color: black;
+    color: white;
+    padding: 12px 12px;
+    border-radius: 25px;
+    font-size: 17px;
+    }
+</style>
+<body>
+    <!-- <i class="fas fa-square"></i>
+    <i class="fas fa-grip-lines-vertical"></i>
+    <i class="far fa-circle"></i>
+    <i class="fas fa-adjust"></i>
+    <i class="fas fa-caret-square-up"></i> -->
+
+    <div class="nav">
+    <div class="menu">
+        <div class="tool" id="line">
+            <img class="pp" src="./images/line.jpg">
+
+        </div>
+        <div class="tool" id="square">
+            <img class="pp" src="./images/selection.png">
+        </div>
+        <div class="tool" id="circle">
+            <img class="pp" src="./images/share.png">
+        </div>
+        <div class="tool" id="semicircle">
+            <img class="pp" src="./images/semicircle.png">
+        </div>
+        <div class="tool" id="triangle">
+            <img class="pp" src="./images/triangle.png">
+        </div>
+        <div class="tool" id="right">
+            <img class="pp" src="./images/triangleri.png">
+        </div>
+        <div class="tool" id="pencil">
+            <img class="pp" src="./images/pencil.png">
+        </div>
+        <div class="tool" id="eraser">
+            <img class="pp" src="./images/eraser.png">
+        </div>
+        <div  class="red co tool"></div>
+        <div class="blue co"></div>
+        <div class="black co"></div>
+        <div class="green co"></div>
+        <div class="yellow co"></div>
+    </div>
+  
+        {{!-- <button class="btn">login</button> --}}
+        <div class="button">
+            {{!-- <form action="/register">
+                <input type="submit" value="register">
+            </form> --}}
+            <form action="/login">
+                <input class="inner" type="submit" value="login">
+            </form>
+        </div>
+    </div>
+    <!-- <h1>canvas here</h1> -->
+    <!-- canvas is basically a drawing board with is all functionality -->
+    <canvas></canvas>
+    <script src="script.js"></script>
+   
+</body>
+<script>
+    let menu = document.querySelector(".menu");
+    let toolimg = document.querySelectorAll(".pp");
+    let CanvasBoard = document.querySelector("canvas");
+    let rectTool = document.querySelector("#square");
+    console.log(rectTool);
+    let circle = document.querySelector("#circle");
+    // console.log(circle);
+    let red = document.querySelector(".red");
+    let blue = document.querySelector(".blue");
+    let black = document.querySelector(".black");
+    let green = document.querySelector(".green");
+    let yellow = document.querySelector(".yellow");
+
+    let lineTool = document.querySelector("#line");
+    let halfcircle = document.querySelector("#semicircle");
+    let triangle = document.querySelector("#triangle");
+    let righttriangle = document.querySelector("#right");
+    let pencil = document.querySelector("#pencil");
+    let eraser = document.querySelector("#eraser");
+    let cTool = "pencil";
+   
+    CanvasBoard.height = window.innerHeight;
+    console.log(CanvasBoard.height);
+    CanvasBoard.width = window.innerWidth;
+    let mouseposition = false;
+    // line will give give u canvas tools 
+    let tool = CanvasBoard.getContext("2d");
+    tool.strokeStyle = "black";
+    if(cTool==eraser){
+         tool.lineWidth = 7;
+    }else{
+        tool.lineWidth=3;
+         
+    }
+    tool.fillStyle='black';
+    // it has 4 parameter satrting point of x, satrting point of y, width,height
+    // tool.fillRect(0,0,400,400);//provide colour to tool
+    // tool.strokeStyle="red";// for colour
+    // tool.fillStyle = "green";//for back ground colour
+    let body = document.querySelector("body");
+    rectTool.addEventListener("click", function () {
+        cTool = "rectTool";
+      tool.strokeStyle = "black";
+    })
+    lineTool.addEventListener("click", function () {
+        cTool = "lineTool";
+        tool.strokeStyle = "black";
+    })
+    pencil.addEventListener("click", function () {
+        tool.strokeStyle = "black";
+        cTool = "pencil";
+    })
+    eraser.addEventListener("click", function () {
+        cTool = "eraser";
+        tool.strokeStyle = "white";
+ })
+
+    circle.addEventListener("click", function () {
+         tool.strokeStyle = "black";
+        cTool = "circle";
+        // console.log("ge");
+    })
+    halfcircle.addEventListener("click", function () {
+        tool.strokeStyle = "black";
+        cTool = "halfcircle";
+    })
+    triangle.addEventListener("click", function () {
+        cTool = "triangle";
+        tool.strokeStyle = "black";
+
+    })
+    righttriangle.addEventListener("click", function () {
+        cTool = "righttriangle";
+  tool.strokeStyle = "black";
+    })
+    let boardTop = CanvasBoard.getBoundingClientRect().top; //returns the size of an element and
+    //  its position relative to the viewport
+    let boardLeft = CanvasBoard.getBoundingClientRect().left;
+
+    let sx, sy, fx, fy;
+    body.addEventListener("mousedown", function (e) {
+        // console.log(e);
+        sx = e.clientX + boardLeft;//we have done this for correct origin starting point and ending point
+        sy = e.clientY - boardTop;
+        // console.log("mouse down"+row+"  "+col);
+        if (cTool == "pencil" || cTool == "eraser") {
+            // console.log("hi");
+            mouseposition = true;
+            tool.beginPath();
+
+            tool.moveTo(sx, sy);
+        }
+
+    })
+
+    body.addEventListener("mouseup", function (e) {
+        // console.log(e);
+        fx = e.clientX + boardLeft;
+        fy = e.clientY - boardTop;
+        // console.log("mouse up"+row+"  "+col);
+        let width = fx - sx;
+        let height = fy - sy;
+        if (cTool == "pencil" || cTool == "eraser") {
+            // console.log("up");
+            mouseposition = false;
+        } else
+            if (cTool == "rectTool") {
+                // tool.fillRect(sx,sy,width,height);// for background colour
+                tool.strokeRect(sx, sy, width, height);//for border
+            } else if (cTool == "circle") {
+                tool.beginPath();
+                console.log(sx + " " + sy);
+                console.log(fx + " " + fy);
+                let r = parseInt(Math.sqrt((sx - fx) * (sx - fx) + (sy - fy) * (sy - fy)));
+                console.log(r);
+                tool.arc(sx, sy, r, 0, 2 * Math.PI);
+                tool.stroke();
+            } else if (cTool == "halfcircle") {
+                tool.beginPath();
+                let r = parseInt(Math.sqrt((sx - fx) * (sx - fx) + (sy - fy) * (sy - fy)));
+                tool.arc(sx, sy, r, 0, Math.PI);
+                tool.stroke();
+            } else if (cTool == "triangle") {
+                //   equilateral triangle
+                let temp = (fy - sy);
+                var h = temp * (Math.sqrt(3) / 2);
+                console.log(h);
+                tool.beginPath();
+                tool.moveTo(sx, sy);
+                tool.lineTo(sx + 50, sy + h);
+                tool.lineTo(sx - 50, sy + h);
+                tool.lineTo(sx, sy);
+                tool.stroke();
+                tool.closePath();
+            } else if (cTool == "righttriangle") {
+                let temp = (fy - sy);
+                var h = temp * (Math.sqrt(3) / 2);
+                console.log(h);
+                tool.beginPath();
+                tool.moveTo(sx, sy);
+                tool.lineTo(sx + 50, sy + h);
+                tool.lineTo(sx, sy + h);
+                tool.lineTo(sx, sy);
+                tool.stroke();
+                tool.closePath();
+            }
+            else if (cTool == "lineTool") {
+                tool.beginPath();//start drawing
+                tool.moveTo(sx, sy);//initial position of line(x1,y1)
+                tool.lineTo(fx, fy);//final position of line x2,y2
+                tool.stroke()// draw line
+            }
+    })
+
+    body.addEventListener("mousemove", function (e) {
+        if (mouseposition == false) {
+            return
+        }
+        fx = e.clientX - boardLeft;//for correct alignment
+        fy = e.clientY - boardTop;
+        tool.lineTo(fx, fy);
+        tool.stroke();
+        sx = fx;
+        sy = fy;
+    })
+    red.addEventListener("click", function () {
+        // colorArea.style.backgroundColor ="red";
+        tool.strokeStyle = "red";
+    })
+    green.addEventListener("click", function () {
+        // colorArea.style.backgroundColor ="green";
+        tool.strokeStyle = "green";
+    })
+    blue.addEventListener("click", function () {
+        // colorArea.style.backgroundColor ="blue";
+        tool.strokeStyle = "blue";
+    })
+    black.addEventListener("click", function () {
+        // colorArea.style.backgroundColor ="blue";
+        tool.strokeStyle = "black";
+    })
+    yellow.addEventListener("click", function () {
+        // colorArea.style.backgroundColor ="blue";
+        tool.strokeStyle = "yellow";
+    })
+
+// </script>
+
+</script>
+
+</html>
+
+
+<!-- https://github.com/Jasbir96/Batches/blob/main/FJP-1/index.html -->
